@@ -19,6 +19,8 @@ import {
 	CREATE_JOB_ERROR,
 	GET_JOBS_BEGIN,
 	GET_JOBS_SUCCESS,
+	GET_SINGLE_JOB_BEGIN,
+	GET_SINGLE_JOB_SUCCESS,
 	SET_EDIT_JOB,
 	DELETE_JOB_BEGIN,
 	EDIT_JOB_BEGIN,
@@ -28,6 +30,9 @@ import {
 	SHOW_STATS_SUCCESS,
 	CLEAR_FILTERS,
 	CHANGE_PAGE,
+	SHOW_JOB_DESCRIPTION_BEGIN,
+	SHOW_JOB_DESCRIPTION_SUCCESS,
+	TOGGLE_JOB_DESCRIPTION,
 } from "./actions";
 
 import { initialState } from "./appContext";
@@ -175,6 +180,7 @@ const reducer = (state, action) => {
 			editJobId: "",
 			position: "",
 			company: "",
+			jobDescription: "",
 			status: "pending",
 			jobType: "full-time",
 			jobLocation: state.userLocation,
@@ -230,9 +236,60 @@ const reducer = (state, action) => {
 		};
 	}
 
+	if (action.type === GET_SINGLE_JOB_BEGIN) {
+		return {
+			...state,
+			isLoading: false,
+			showAlert: false,
+		};
+	}
+
+	if (action.type === GET_SINGLE_JOB_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			job: action.payload.job,
+		};
+	}
+
+	if (action.type === SHOW_JOB_DESCRIPTION_BEGIN) {
+		return {
+			...state,
+			isLoading: true,
+			showAlert: false,
+		};
+	}
+
+	if (action.type === SHOW_JOB_DESCRIPTION_SUCCESS) {
+		const { jobDescription } = action.payload.job;
+		console.log(`action.payload`, action.payload);
+		return {
+			...state,
+			isLoading: false,
+			job: action.payload.job,
+			jobDescription,
+			displayJobDescription: true,
+		};
+	}
+
+	if (action.type === TOGGLE_JOB_DESCRIPTION) {
+		return {
+			...state,
+			displayJobDescription: false,
+		};
+	}
+
 	if (action.type === SET_EDIT_JOB) {
 		const job = state.jobs.find((job) => job._id === action.payload.id);
-		const { _id, position, company, jobLocation, jobType, status } = job;
+		const {
+			_id,
+			position,
+			company,
+			jobLocation,
+			jobType,
+			status,
+			jobDescription,
+		} = job;
 		return {
 			...state,
 			isEditing: true,
@@ -240,6 +297,7 @@ const reducer = (state, action) => {
 			position,
 			company,
 			jobLocation,
+			jobDescription,
 			jobType,
 			status,
 		};

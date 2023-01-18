@@ -70,6 +70,15 @@ const getAllJobs = async (req, res) => {
 	res.status(StatusCodes.OK).json({ jobs, totalJobs, numOfPages });
 };
 
+const getSingleJob = async (req, res) => {
+	const { id: jobId } = req.params;
+	const job = await Job.findOne({ _id: jobId });
+	if (!job) {
+		throw new NotFoundError(`No job with id ${jobId} found`);
+	}
+	res.status(StatusCodes.OK).json({ job });
+};
+
 const updateJob = async (req, res) => {
 	const { id: jobId } = req.params;
 	const { company, position } = req.body;
@@ -162,4 +171,4 @@ const showStats = async (req, res) => {
 	res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
 
-export { createJob, deleteJob, getAllJobs, updateJob, showStats };
+export { createJob, deleteJob, getAllJobs, updateJob, showStats, getSingleJob };
