@@ -4,6 +4,7 @@ import Loading from "./Loading";
 import Job from "./Job";
 import Wrapper from "../assets/wrappers/JobsContainer";
 import PageBtnContainer from "./PageBtnContainer";
+import JobDescription from "./JobDescription";
 
 const JobsContainer = () => {
 	const {
@@ -40,6 +41,7 @@ const JobsContainer = () => {
 			<h5>
 				{totalJobs} job{jobs.length > 1 && "s"} found
 			</h5>
+			<JobDescription />
 			<div className="jobs">
 				{jobs.map((job) => {
 					return <Job key={job._id} {...job} />;

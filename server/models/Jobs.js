@@ -12,6 +12,12 @@ const JobSchema = new mongoose.Schema(
 			required: [true, "Please provide position"],
 			maxlength: 100,
 		},
+		jobDescription: {
+			type: String,
+			required: [true, "Please provide job description"],
+			maxlength: 10000,
+			default: "Job Description",
+		},
 		status: {
 			type: String,
 			enum: ["interview", "declined", "pending"],

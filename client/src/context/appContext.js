@@ -23,6 +23,8 @@ import {
 	CREATE_JOB_ERROR,
 	GET_JOBS_BEGIN,
 	GET_JOBS_SUCCESS,
+	GET_SINGLE_JOB_BEGIN,
+	GET_SINGLE_JOB_SUCCESS,
 	SET_EDIT_JOB,
 	DELETE_JOB_BEGIN,
 	EDIT_JOB_BEGIN,
@@ -32,6 +34,9 @@ import {
 	SHOW_STATS_SUCCESS,
 	CLEAR_FILTERS,
 	CHANGE_PAGE,
+	SHOW_JOB_DESCRIPTION_BEGIN,
+	SHOW_JOB_DESCRIPTION_SUCCESS,
+	TOGGLE_JOB_DESCRIPTION,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -54,6 +59,9 @@ const initialState = {
 	jobLocation: userLocation || "",
 	jobTypeOptions: ["full-time", "part-time", "remote", "internship"],
 	jobType: "full-time",
+	job: {},
+	jobDescription: "",
+	toggleJobDescription: false,
 	statusOptions: ["interview", "declined", "pending"],
 	status: "pending",
 	jobs: [],
@@ -218,13 +226,21 @@ const AppProvider = ({ children }) => {
 			type: CREATE_JOB_BEGIN,
 		});
 		try {
-			const { position, company, jobLocation, jobType, status } = state;
+			const {
+				position,
+				company,
+				jobLocation,
+				jobType,
+				status,
+				jobDescription,
+			} = state;
 			await authFetch.post("/jobs", {
 				position,
 				company,
 				jobLocation,
 				jobType,
 				status,
+				jobDescription,
 			});
 			dispatch({ type: CREATE_JOB_SUCCESS });
 			dispatch({ type: CLEAR_VALUES });
@@ -267,7 +283,14 @@ const AppProvider = ({ children }) => {
 	const editJob = async () => {
 		dispatch({ type: EDIT_JOB_BEGIN });
 		try {
-			const { position, company, jobLocation, jobType, status } = state;
+			const {
+				position,
+				company,
+				jobLocation,
+				jobType,
+				status,
+				jobDescription,
+			} = state;
 
 			await authFetch.patch(`/jobs/${state.editJobId}`, {
 				company,
@@ -275,6 +298,7 @@ const AppProvider = ({ children }) => {
 				jobLocation,
 				jobType,
 				status,
+				jobDescription,
 			});
 			dispatch({ type: EDIT_JOB_SUCCESS });
 			dispatch({
@@ -288,6 +312,41 @@ const AppProvider = ({ children }) => {
 			});
 		}
 		clearAlert();
+	};
+
+	const getSingleJob = async (jobId) => {
+		dispatch({ type: GET_SINGLE_JOB_BEGIN });
+		try {
+			const { data } = await authFetch(`/jobs/${jobId}`);
+			dispatch({
+				type: GET_SINGLE_JOB_SUCCESS,
+				payload: { data },
+			});
+		} catch (error) {
+			console.log(error.reponse);
+			logoutUser();
+		}
+		clearAlert();
+	};
+
+	const showJobDescription = async (jobId) => {
+		dispatch({ type: SHOW_JOB_DESCRIPTION_BEGIN });
+		try {
+			// getSingleJob(jobId);
+			const { data } = await authFetch(`/jobs/${jobId}`);
+			dispatch({
+				type: SHOW_JOB_DESCRIPTION_SUCCESS,
+				payload: { job: data.job },
+			});
+		} catch (error) {
+			console.log(error.reponse);
+			logoutUser();
+		}
+		clearAlert();
+	};
+
+	const toggleJobDescription = () => {
+		dispatch({ type: TOGGLE_JOB_DESCRIPTION });
 	};
 
 	const deleteJob = async (jobId) => {
@@ -349,9 +408,12 @@ const AppProvider = ({ children }) => {
 				setEditJob,
 				deleteJob,
 				editJob,
+				getSingleJob,
 				showStats,
 				clearFilters,
 				changePage,
+				showJobDescription,
+				toggleJobDescription,
 			}}
 		>
 			{children}

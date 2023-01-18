@@ -14,7 +14,7 @@ const Job = ({
 	createdAt,
 	status,
 }) => {
-	const { setEditJob, deleteJob } = useAppContext();
+	const { setEditJob, deleteJob, showJobDescription } = useAppContext();
 	let date = moment(createdAt);
 	date = date.format("Do MMM, YYYY");
 	return (
@@ -50,6 +50,13 @@ const Job = ({
 							onClick={() => deleteJob(_id)}
 						>
 							Delete
+						</button>
+						<button
+							type="button"
+							className="btn delete-btn"
+							onClick={() => showJobDescription(_id)}
+						>
+							Job Description
 						</button>
 					</div>
 				</footer>
