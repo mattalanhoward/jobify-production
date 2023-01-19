@@ -186,7 +186,7 @@ ul {
   color: var(--white);
 }
 .btn-info {
-  background: var(--primary-300);
+  background: var(--primary-200);
   color: var(--primary-800);
   margin-left: 0.5rem;
 }
