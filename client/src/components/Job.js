@@ -53,7 +53,7 @@ const Job = ({
 						</button>
 						<button
 							type="button"
-							className="btn delete-btn"
+							className="btn btn-info"
 							onClick={() => showJobDescription(_id)}
 						>
 							Job Description
