@@ -11,6 +11,7 @@ const AddJob = () => {
 		position,
 		company,
 		jobLocation,
+		jobPostingURL,
 		jobType,
 		jobDescription,
 		jobTypeOptions,
@@ -28,7 +29,14 @@ const AddJob = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (!position || !company || !jobLocation || !jobDescription) {
+
+		if (
+			!position ||
+			!company ||
+			!jobLocation ||
+			!jobDescription ||
+			!jobPostingURL
+		) {
 			displayAlert();
 			return;
 		}
@@ -78,13 +86,19 @@ const AddJob = () => {
 					{/* job status */}
 					<FormRowSelect
 						name="jobType"
-						labelText="jobType"
+						labelText="Job Type"
 						value={jobType}
 						handleChange={handleJobInput}
 						list={jobTypeOptions}
 					/>
-					{/* Placeholder */}
-					<div></div>
+
+					{/* job URL */}
+					<FormRow
+						name="jobPostingURL"
+						labelText="Posting URL"
+						value={jobPostingURL}
+						handleChange={handleJobInput}
+					/>
 				</div>
 				<div className="form-textarea-container">
 					{/* job description */}

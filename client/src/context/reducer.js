@@ -184,6 +184,7 @@ const reducer = (state, action) => {
 			status: "pending",
 			jobType: "full-time",
 			jobLocation: state.userLocation,
+			jobPostingURL: "",
 		};
 		return {
 			...state,
@@ -290,6 +291,7 @@ const reducer = (state, action) => {
 			jobType,
 			status,
 			jobDescription,
+			jobPostingURL,
 		} = job;
 		return {
 			...state,
@@ -301,6 +303,7 @@ const reducer = (state, action) => {
 			jobDescription,
 			jobType,
 			status,
+			jobPostingURL,
 		};
 	}
 

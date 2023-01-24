@@ -56,6 +56,7 @@ const initialState = {
 	editJobId: "",
 	position: "",
 	company: "",
+	jobPostingURL: "",
 	jobLocation: userLocation || "",
 	jobTypeOptions: ["full-time", "part-time", "remote", "internship"],
 	jobType: "full-time",
@@ -233,6 +234,7 @@ const AppProvider = ({ children }) => {
 				jobType,
 				status,
 				jobDescription,
+				jobPostingURL,
 			} = state;
 			await authFetch.post("/jobs", {
 				position,
@@ -241,6 +243,7 @@ const AppProvider = ({ children }) => {
 				jobType,
 				status,
 				jobDescription,
+				jobPostingURL,
 			});
 			dispatch({ type: CREATE_JOB_SUCCESS });
 			dispatch({ type: CLEAR_VALUES });
@@ -290,6 +293,7 @@ const AppProvider = ({ children }) => {
 				jobType,
 				status,
 				jobDescription,
+				jobPostingURL,
 			} = state;
 
 			await authFetch.patch(`/jobs/${state.editJobId}`, {
@@ -299,6 +303,7 @@ const AppProvider = ({ children }) => {
 				jobType,
 				status,
 				jobDescription,
+				jobPostingURL,
 			});
 			dispatch({ type: EDIT_JOB_SUCCESS });
 			dispatch({
