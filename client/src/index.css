@@ -256,6 +256,9 @@ ul {
 .form-textarea {
   height: 7rem;
 }
+.form-textarea-container{
+  margin: 1rem 0;
+}
 ::placeholder {
   font-family: inherit;
   color: var(--grey-400);

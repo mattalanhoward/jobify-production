@@ -1,5 +1,6 @@
 import Logo from "./Logo";
 import FormRow from "./FormRow";
+import FormTextArea from "./FormTextArea";
 import Alert from "./Alert";
 import BigSidebar from "./BigSidebar";
 import SmallSidebar from "./SmallSidebar";
@@ -20,6 +21,7 @@ export {
 	SmallSidebar,
 	Navbar,
 	FormRowSelect,
+	FormTextArea,
 	JobsContainer,
 	SearchContainer,
 	StatsContainer,
