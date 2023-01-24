@@ -38,6 +38,10 @@ const JobSchema = new mongoose.Schema(
 			ref: "User",
 			required: [true, "Please provide user"],
 		},
+		jobPostingURL: {
+			type: String,
+			maxlength: 100,
+		},
 	},
 	{ timestamps: true }
 );

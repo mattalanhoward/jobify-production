@@ -1,9 +1,15 @@
 import JobInfo from "./JobInfo";
 import moment from "moment";
-import { FaLocationArrow, FaBriefcase, FaCalendarAlt } from "react-icons/fa";
+import {
+	FaLocationArrow,
+	FaBriefcase,
+	FaCalendarAlt,
+	FaExternalLinkAlt,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../context/appContext";
 import Wrapper from "../assets/wrappers/Job";
+import { ExternalLink } from "react-external-link";
 
 const Job = ({
 	_id,
@@ -13,6 +19,7 @@ const Job = ({
 	jobType,
 	createdAt,
 	status,
+	jobPostingURL,
 }) => {
 	const { setEditJob, deleteJob, showJobDescription } = useAppContext();
 	let date = moment(createdAt);
@@ -28,9 +35,16 @@ const Job = ({
 			</header>
 			<div className="content">
 				<div className="content-center">
-					<JobInfo icon={<FaLocationArrow />} text={jobLocation} />
-					<JobInfo icon={<FaCalendarAlt />} text={date} />
-					<JobInfo icon={<FaBriefcase />} text={jobType} />
+					<JobInfo
+						icon={<FaLocationArrow />}
+						text={jobLocation}
+						textClass="text"
+					/>
+					<JobInfo icon={<FaCalendarAlt />} text={date} textClass="text" />
+					<JobInfo icon={<FaBriefcase />} text={jobType} textClass="text" />
+					<ExternalLink href={jobPostingURL}>
+						<JobInfo icon={<FaExternalLinkAlt />} text="Job Listing" />
+					</ExternalLink>
 					<div className={`status ${status}`}>{status}</div>
 				</div>
 				<footer>
